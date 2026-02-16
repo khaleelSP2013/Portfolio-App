@@ -7,9 +7,10 @@
   justify-content: space-between;
   height: var(--nav-height);
   padding: 0 1.5rem;
-  background: rgba(13, 13, 18, 0.9);
+  background: rgba(13, 13, 18, 0.95);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border);
+  isolation: isolate;
 }
 
 .logo {
@@ -17,51 +18,98 @@
   font-size: 1.25rem;
   color: var(--accent);
   letter-spacing: -0.02em;
+  z-index: 101;
+  position: relative;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .menu-toggle {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 6px;
-  width: 32px;
-  height: 32px;
-  padding: 4px;
+  align-items: center;
+  gap: 5px;
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 10px;
   background: none;
   border: none;
   cursor: pointer;
   color: var(--text);
+  z-index: 102;
+  position: relative;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .menu-toggle span {
   display: block;
+  width: 22px;
   height: 2px;
   background: currentColor;
   border-radius: 2px;
-  transition: var(--transition);
+  transition: transform 0.25s ease, opacity 0.2s ease;
+  transform-origin: center;
 }
 
-.menu-toggle span.open:nth-child(1) {
-  transform: translateY(8px) rotate(45deg);
+.menu-toggle-open span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
 }
-.menu-toggle span.open:nth-child(2) {
+.menu-toggle-open span:nth-child(2) {
   opacity: 0;
+  transform: scaleX(0);
 }
-.menu-toggle span.open:nth-child(3) {
-  transform: translateY(-8px) rotate(-45deg);
+.menu-toggle-open span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* Backdrop for mobile: tap outside to close */
+.nav-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 98;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.nav-backdrop-visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* Hide backdrop on desktop (nav is inline there) */
+@media (min-width: 768px) {
+  .nav-backdrop {
+    display: none;
+  }
 }
 
 .nav {
   position: fixed;
-  top: var(--nav-height);
+  top: 0;
   left: 0;
   right: 0;
   bottom: 0;
   background: var(--bg-dark);
-  padding: 2rem 1.5rem;
+  padding-top: calc(var(--nav-height) + 1rem);
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  padding-bottom: 2rem;
   transform: translateX(100%);
-  transition: transform 0.3s ease;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   overflow-y: auto;
+  z-index: 99;
+  -webkit-overflow-scrolling: touch;
+  will-change: transform;
 }
 
 .nav-open {
@@ -72,16 +120,22 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 .nav-link {
   display: block;
-  padding: 0.75rem 1rem;
-  font-size: 1.1rem;
+  padding: 1rem 1.25rem;
+  font-size: 1.125rem;
   font-weight: 500;
   color: var(--text-muted);
   border-radius: var(--radius);
   transition: color var(--transition), background var(--transition);
+  -webkit-tap-highlight-color: transparent;
+  position: relative;
+  z-index: 1;
 }
 
 .nav-link:hover,

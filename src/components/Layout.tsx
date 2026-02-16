@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import './Layout.css'
 
@@ -21,6 +21,36 @@ export default function Layout({ children }: LayoutProps) {
 
   const closeMenu = () => setMenuOpen(false)
 
+  const toggleMenu = () => setMenuOpen((o) => !o)
+
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (menuOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [menuOpen])
+
+  // Close menu on route change (e.g. after clicking a link)
+  useEffect(() => {
+    setMenuOpen(false)
+  }, [location.pathname])
+
+  // Close menu on Escape key
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setMenuOpen(false)
+    }
+    if (menuOpen) {
+      document.addEventListener('keydown', handleEscape)
+      return () => document.removeEventListener('keydown', handleEscape)
+    }
+  }, [menuOpen])
+
   return (
     <>
       <header className="header">
@@ -29,16 +59,23 @@ export default function Layout({ children }: LayoutProps) {
         </Link>
         <button
           type="button"
-          className="menu-toggle"
-          aria-label="Toggle menu"
+          className={`menu-toggle ${menuOpen ? 'menu-toggle-open' : ''}`}
+          aria-label={menuOpen ? 'Close menu' : 'Open menu'}
           aria-expanded={menuOpen}
-          onClick={() => setMenuOpen((o) => !o)}
+          onClick={toggleMenu}
         >
-          <span className={menuOpen ? 'open' : ''} />
-          <span className={menuOpen ? 'open' : ''} />
-          <span className={menuOpen ? 'open' : ''} />
+          <span />
+          <span />
+          <span />
         </button>
-        <nav className={`nav ${menuOpen ? 'nav-open' : ''}`}>
+        {/* Backdrop: tap outside to close */}
+        <div
+          className={`nav-backdrop ${menuOpen ? 'nav-backdrop-visible' : ''}`}
+          onClick={closeMenu}
+          role="presentation"
+          aria-hidden="true"
+        />
+        <nav className={`nav ${menuOpen ? 'nav-open' : ''}`} aria-label="Main navigation">
           <ul className="nav-list">
             {navItems.map(({ path, label }) => (
               <li key={path}>
