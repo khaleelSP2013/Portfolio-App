@@ -58,9 +58,8 @@ export default function Contact() {
         <div className="contact-info">
           <p>You can also reach out via:</p>
           <ul>
-            <li>Email: your@email.com</li>
-            <li>LinkedIn: linkedin.com/in/yourprofile</li>
-            <li>GitHub: github.com/yourusername</li>
+            <li>Email: mahalthykhaleel@hotmail.com</li>
+            <li>GitHub: https://github.com/khaleelSP2013</li>
           </ul>
         </div>
       </div>

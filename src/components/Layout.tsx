@@ -93,7 +93,7 @@ export default function Layout({ children }: LayoutProps) {
       </header>
       <main className="main">{children}</main>
       <footer className="footer">
-        <p>© {new Date().getFullYear()} Portfolio. Built with React & TypeScript.</p>
+        <p>© {new Date().getFullYear()} Khaleel  Portfolio. Built with React & TypeScript.</p>
       </footer>
     </>
   )
