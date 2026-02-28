@@ -6,7 +6,7 @@ export default function Home() {
     <section className="hero">
       <div className="hero-content">
         <p className="hero-greeting">Hello, I'm</p>
-        <h1 className="hero-title">Khaleel Ahmed</h1>
+        <h1 className="hero-title">Khaleel Ahmed Mahalthy </h1>
         <p className="hero-tagline">Frontend Developer · Building clean, responsive experiences</p>
         <p className="hero-desc">
           I craft modern web applications with React, TypeScript, and a focus on performance and accessibility.
